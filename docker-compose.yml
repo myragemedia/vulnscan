@@ -1,0 +1,20 @@
+services:
+  vulnscan:
+    build: .
+    container_name: vulnscan
+    restart: unless-stopped
+    env_file: .env
+    ports:
+      - "8000:8000"
+    volumes:
+      - vulnscan-data:/data
+    # Raw-socket scans (nmap -sS) need these; connect scans work without them.
+    cap_add:
+      - NET_RAW
+      - NET_ADMIN
+    # For full LAN host discovery from inside the container, swap the ports +
+    # bridge networking above for host networking instead:
+    # network_mode: host
+
+volumes:
+  vulnscan-data:

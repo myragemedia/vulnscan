@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>VulnScan Console</title>
+  <link rel="stylesheet" href="/assets/style.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <span class="brand-mark" aria-hidden="true"></span>
+      <span class="brand-name">VulnScan</span>
+      <span class="brand-sub">assessment console</span>
+    </div>
+    <div class="topbar-status">
+      <span id="activeScans" class="pill pill-quiet">0 active</span>
+      <span id="wsStatus" class="pill pill-off">
+        <span class="dot"></span><span id="wsStatusText">connecting</span>
+      </span>
+    </div>
+  </header>
+
+  <main class="layout">
+    <!-- Left rail: launcher + history -->
+    <aside class="rail">
+      <section class="panel launcher">
+        <h2 class="panel-title">New assessment</h2>
+
+        <label class="field">
+          <span class="field-label">Tool</span>
+          <select id="pluginSelect"></select>
+        </label>
+        <p id="pluginDesc" class="tool-desc"></p>
+
+        <label class="field">
+          <span class="field-label">Target</span>
+          <input id="targetInput" type="text" placeholder="192.168.1.0/24 or host" autocomplete="off" />
+        </label>
+
+        <div id="optionsForm" class="options"></div>
+
+        <button id="launchBtn" class="btn btn-primary">Launch scan</button>
+        <p id="launchMsg" class="launch-msg" role="status"></p>
+      </section>
+
+      <section class="panel history">
+        <h2 class="panel-title">History</h2>
+        <ul id="historyList" class="history-list"></ul>
+      </section>
+    </aside>
+
+    <!-- Main workspace -->
+    <section class="workspace">
+      <div id="severityStrip" class="severity-strip">
+        <button class="sev sev-critical" data-sev="critical"><b id="c-critical">0</b><span>critical</span></button>
+        <button class="sev sev-high" data-sev="high"><b id="c-high">0</b><span>high</span></button>
+        <button class="sev sev-medium" data-sev="medium"><b id="c-medium">0</b><span>medium</span></button>
+        <button class="sev sev-low" data-sev="low"><b id="c-low">0</b><span>low</span></button>
+        <button class="sev sev-info" data-sev="info"><b id="c-info">0</b><span>info</span></button>
+        <div class="strip-actions">
+          <button id="cancelBtn" class="btn btn-ghost" disabled>Cancel</button>
+          <button id="reportBtn" class="btn btn-ghost">Export report</button>
+        </div>
+      </div>
+
+      <div class="grid">
+        <section class="panel console-panel">
+          <div class="panel-head">
+            <h2 class="panel-title">Live output</h2>
+            <span id="scanContext" class="scan-context">idle</span>
+          </div>
+          <div id="console" class="console" aria-live="polite"></div>
+        </section>
+
+        <section class="panel findings-panel">
+          <div class="panel-head">
+            <h2 class="panel-title">Findings</h2>
+            <span id="findingsCount" class="scan-context">0</span>
+          </div>
+          <div id="findings" class="findings"></div>
+        </section>
+      </div>
+    </section>
+  </main>
+
+  <script src="/assets/app.js"></script>
+</body>
+</html>

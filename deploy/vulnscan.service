@@ -1,0 +1,26 @@
+[Unit]
+Description=VulnScan assessment console
+After=network.target
+
+[Service]
+Type=simple
+User=vulnscan
+Group=vulnscan
+WorkingDirectory=/opt/vulnscan/backend
+EnvironmentFile=/opt/vulnscan/.env
+ExecStart=/opt/vulnscan/backend/.venv/bin/uvicorn app:app --host ${HOST} --port ${PORT}
+Restart=on-failure
+RestartSec=3
+
+# Hardening
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=full
+ProtectHome=true
+
+# Uncomment if you need raw-socket scans (e.g. nmap -sS SYN scans).
+# Without this, nmap falls back to TCP connect scans, which is fine and safer.
+# AmbientCapabilities=CAP_NET_RAW CAP_NET_ADMIN
+
+[Install]
+WantedBy=multi-user.target
